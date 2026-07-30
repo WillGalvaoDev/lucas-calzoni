@@ -1,0 +1,195 @@
+@import 'tailwindcss';
+
+/* Fontes variáveis (Fontsource) — um arquivo por família cobre toda a faixa
+   de peso, em vez de um arquivo estático por peso (docs/design-system.md,
+   "Tipografia"). `standard.css` do Newsreader inclui o eixo ótico (opsz) além
+   do peso — é o que dá o ajuste automático entre display grande (H1) e texto
+   menor (H3) sem CSS extra; o itálico correspondente não é importado aqui
+   por não ter uso atual (ver docs/design-system.md). */
+@import '@fontsource-variable/newsreader/standard.css';
+@import '@fontsource-variable/manrope';
+
+:root {
+  /* Raw design tokens — docs/design-system.md (Cores) */
+  --background: #faf9f6;
+  --foreground: #171614;
+  --border: #e4e1da;
+  --accent: #8a6d4e;
+  --muted-foreground: #6b675f;
+
+  /* Superfícies claras — mesmo matiz de --background/--border, só passos de
+     luminosidade intermediários (não são cores novas). Usadas para criar
+     hierarquia/ritmo entre as seções claras sem gradiente, vinheta, textura
+     ou sombra decorativa — ver docs/design-system.md ("Superfícies"). */
+  --surface: #f3f1eb;
+  --surface-muted: #ece9e2;
+
+  /* Remapped for shadcn/ui component slots — see docs/design-system.md,
+     reused by reference only, no new colors introduced */
+  --muted: var(--border);
+  --input: var(--border);
+  --secondary: var(--border);
+  --secondary-foreground: var(--foreground);
+  --primary: var(--foreground);
+  --primary-foreground: var(--background);
+  --destructive: var(--foreground);
+  --popover: var(--background);
+  --popover-foreground: var(--foreground);
+  --ring: var(--accent);
+  --accent-foreground: var(--background);
+
+  /* Radius scale: not specified in design-system.md, required by installed
+     components (var(--radius-md) etc.). Kept restrained for the editorial
+     minimalist direction. */
+  --radius: 0.375rem;
+
+  /* Convenção única de motion — docs/design-system.md ("Motion"). Reutilizada
+     por toda animação de revelação do site (Trabalhos, Galeria, futuras). */
+  --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-duration: 400ms;
+  --motion-duration-fast: 200ms;
+}
+
+/* Radix Collapsible/Accordion só anima o fechamento se detectar uma
+   `animation` CSS nomeada (transition sozinha não cobre o desmonte via
+   Presence) — ver docs/design-system.md ("Motion"). Usada pela seção
+   Trabalhos para a revelação em cortina (máscara horizontal). */
+@keyframes curtain-reveal-open {
+  from {
+    height: 0;
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+@keyframes curtain-reveal-close {
+  from {
+    height: var(--radix-accordion-content-height);
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+  to {
+    height: 0;
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+}
+
+/* Chegada única da Hero (nome, tagline, indicador de scroll) — fade + leve
+   deslocamento vertical, sem clip-path/height (desnecessários para um texto).
+   Roda uma vez no carregamento da página; nenhum elemento da Hero permanece
+   animado depois disso — sem zoom contínuo, parallax ou loop (docs/design-
+   system.md, "Hero"). Mesmos tokens de duração/easing de "Motion". */
+@keyframes hero-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Troca de imagem na Galeria (palco principal e lightbox) — entrada apenas
+   (a foto anterior é substituída no DOM sem animação de saída, via `key`);
+   sem componente de `height` porque o contêiner já tem altura própria
+   (`max-h-*`), diferente do Accordion acima. Mesmos tokens de duração/easing
+   de "Motion" (docs/design-system.md). */
+@keyframes gallery-image-reveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+    transform: translateX(8px);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Cinematic dark sections (Hero, Galeria) — docs/design-system.md (Modo escuro).
+   Scoped override, not a global/user dark-mode toggle. --background/--foreground
+   are the two tokens the doc actually defines for dark sections. --muted/--border
+   added in Item 10 (Galeria) for the photo/reel placeholder cards — derived only
+   from --foreground/--background via color-mix, no new color introduced.
+   --muted-foreground: valor explícito (não color-mix) — o token de texto
+   secundário nunca havia sido redefinido para fundos escuros, então
+   `text-muted-foreground` (ex.: contador "01/08" da Galeria) herdava o valor
+   claro (#6B675F, calibrado para #FAF9F6) e caía para 3.35:1 de contraste
+   sobre #111110. #8F8B83 mantém o mesmo matiz neutro-quente da paleta e
+   garante 5.57:1 sobre #111110 (acima do mínimo AA de 4.5:1). Qualquer
+   consumidor existente ou futuro de `text-muted-foreground` dentro de uma
+   seção escura passa a usar este valor automaticamente, sem alteração local. */
+.section-dark {
+  --background: #111110;
+  --foreground: #faf9f6;
+  --muted: color-mix(in oklch, var(--foreground) 12%, var(--background));
+  --border: color-mix(in oklch, var(--foreground) 18%, var(--background));
+  --muted-foreground: #8f8b83;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* Tipografia — docs/design-system.md ("Tipografia") */
+  --font-sans: 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Newsreader Variable', ui-serif, serif;
+
+  --text-h1: clamp(2.5rem, 5.5vw, 5rem);
+  --text-h1--line-height: 1.15;
+  --text-h1--letter-spacing: -0.015em;
+
+  --text-h2: clamp(1.75rem, 3.5vw, 3rem);
+  --text-h2--line-height: 1.2;
+  --text-h2--letter-spacing: -0.015em;
+
+  --text-h3: clamp(1.125rem, 1.5vw, 1.5rem);
+  --text-h3--line-height: 1.2;
+
+  /* Título de item de lista editorial (hoje só Trabalhos) — papel distinto
+     de --text-h3 (rubrica genérica de subtítulo, sem outro consumidor):
+     aqui o título precisa competir visualmente com ano/categoria na mesma
+     linha. A curva de --text-h3 fica achatada em 18px abaixo de 1200px de
+     viewport (1.5vw só ultrapassa o piso de 1.125rem a partir daí) — por
+     isso um token próprio, com curva que realmente cresce nas larguras
+     comuns, em vez de alargar --text-h3 e afetar qualquer subtítulo
+     genérico futuro que venha a usá-lo (docs/design-system.md, "Tipografia").
+     Mesmo peso (500) e família de --text-h3 — só o tamanho muda. */
+  --text-list-title: clamp(1.25rem, 2.2vw, 1.75rem);
+  --text-list-title--line-height: 1.2;
+
+  /* Tagline da Hero — único consumidor, mas precisa escalar em proporção ao
+     H1 (fluido) em vez de saltar entre dois valores fixos
+     (text-base/sm:text-lg): antes a razão H1:tagline ia de ~2.5x em mobile
+     para ~4.4x em desktop, porque só o H1 crescia com a viewport. */
+  --text-hero-tagline: clamp(1rem, 1.9vw, 1.375rem);
+}
