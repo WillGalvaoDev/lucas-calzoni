@@ -56,7 +56,7 @@ export function ContactChannelItem({
       // (`border-b`), que só precisa do mínimo de 3:1 de componente de UI —
       // o texto permanece sempre em `text-foreground`, de alto contraste.
       className={cn(
-        'flex items-center gap-2 border-b border-transparent pb-0.5 text-sm font-medium tracking-meta uppercase transition-colors hover:border-accent',
+        'flex items-center gap-2 border-b border-transparent py-1 text-sm font-medium tracking-meta uppercase transition-colors hover:border-accent',
         FOCUS_RING,
         className,
       )}
