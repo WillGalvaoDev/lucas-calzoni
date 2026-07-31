@@ -164,7 +164,16 @@
   --font-sans: 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
   --font-display: 'Newsreader Variable', ui-serif, serif;
 
-  --text-h1: clamp(2.5rem, 5.5vw, 5rem);
+  /* Curva revisada — a anterior (clamp(2.5rem, 5.5vw, 5rem)) ficava travada
+     no piso de 2.5rem (40px) em qualquer largura abaixo de ~727px: o termo
+     `5.5vw` sozinho nunca ultrapassava o piso antes disso, então o H1 era, na
+     prática, um valor fixo de 40px em todo o mobile e boa parte do tablet —
+     pequeno demais para ser o principal ponto focal ao lado da fotografia.
+     O termo combinado `2rem + 5vw` cresce desde a largura mínima real (48px
+     em 320px, ~54px em 430px — dentro da faixa 44–56px pedida) e mantém o
+     mesmo teto de 5rem (80px) em desktop, preservando o tamanho já aprovado
+     lá. */
+  --text-h1: clamp(2.75rem, 2rem + 5vw, 5rem);
   --text-h1--line-height: 1.15;
   --text-h1--letter-spacing: -0.015em;
 
@@ -191,5 +200,13 @@
      H1 (fluido) em vez de saltar entre dois valores fixos
      (text-base/sm:text-lg): antes a razão H1:tagline ia de ~2.5x em mobile
      para ~4.4x em desktop, porque só o H1 crescia com a viewport. */
-  --text-hero-tagline: clamp(1rem, 1.9vw, 1.375rem);
+  --text-hero-tagline: clamp(1.125rem, 1.9vw, 1.375rem);
+
+  /* Tracking da voz do metadado (docs/design-system.md, "As duas vozes") —
+     mesmo valor já usado ad-hoc no subtítulo da Hero (tracking-[0.15em]),
+     agora nomeado como token compartilhado no primeiro consumidor que
+     realmente precisa reutilizá-lo (canais de contato, Etapa 4), conforme
+     combinado na Etapa 2. A Hero continua com o valor literal — não é
+     retroativamente migrada nesta etapa por estar fora do escopo aprovado. */
+  --tracking-meta: 0.15em;
 }

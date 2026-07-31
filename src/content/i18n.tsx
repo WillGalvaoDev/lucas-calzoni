@@ -20,6 +20,7 @@ interface QuickFact {
 export interface Dictionary {
   hero: {
     tagline: string
+    ctaLabel: string
   }
   about: {
     bio: string
@@ -45,6 +46,7 @@ export interface Dictionary {
     }
   }
   gallery: {
+    reelLabel: string
     reelPlayLabel: string
     reelTitle: string
     reelPending: string
@@ -52,6 +54,10 @@ export interface Dictionary {
     previous: string
     next: string
     closeLightbox: string
+  }
+  contact: {
+    declarationLine1: string
+    declarationLine2: string
   }
   nav: {
     languageToggleLabel: string
