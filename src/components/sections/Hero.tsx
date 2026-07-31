@@ -98,7 +98,7 @@ export function Hero() {
             asChild
             variant="outline"
             size="lg"
-            className={`h-12 gap-2.5 px-6 text-base border-accent text-foreground hover:bg-accent/10 ${HERO_REVEAL_LATE}`}
+            className={`h-12 gap-2.5 px-6 text-base border-accent bg-transparent text-foreground hover:bg-accent/10 ${HERO_REVEAL_LATE}`}
           >
             <a href="#work" onClick={handleCtaClick}>
               {dictionary.hero.ctaLabel}
