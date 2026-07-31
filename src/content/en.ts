@@ -3,6 +3,7 @@ import type { Dictionary } from './i18n'
 export const en: Dictionary = {
   hero: {
     tagline: 'Film, Television & Theatre Actor',
+    ctaLabel: 'See Work',
   },
   about: {
     bio: 'Acting has always found a way to be part of my life. As a child, I discovered on my school’s stage a place where I could tell stories and see the world through different perspectives. Years later, in 2018, a trip to New York turned that passion into certainty. It was there that I chose to leave behind my degree in Petroleum and Gas Engineering and devote myself wholeheartedly to the path of acting.',
@@ -28,6 +29,7 @@ export const en: Dictionary = {
     },
   },
   gallery: {
+    reelLabel: 'Reel',
     reelPlayLabel: 'Watch the reel',
     reelTitle: "Actor's demo reel video",
     reelPending: '[to be defined]',
@@ -35,6 +37,10 @@ export const en: Dictionary = {
     previous: 'Previous photo',
     next: 'Next photo',
     closeLightbox: 'Close gallery',
+  },
+  contact: {
+    declarationLine1: 'The next story',
+    declarationLine2: 'could start here.',
   },
   nav: {
     languageToggleLabel: 'Switch to Portuguese',

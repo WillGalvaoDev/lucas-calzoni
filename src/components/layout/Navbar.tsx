@@ -13,7 +13,8 @@ import {
 import { LanguageToggle } from './LanguageToggle'
 import { useI18n } from '@/content/i18n'
 import { cn } from '@/lib/utils'
-import { scrollToTop } from '@/lib/scroll'
+import { scrollToId, scrollToTop } from '@/lib/scroll'
+import { FOCUS_RING } from '@/lib/styles'
 
 const NAV_LINKS = [
   { id: 'about', key: 'about' },
@@ -21,20 +22,6 @@ const NAV_LINKS = [
   { id: 'gallery', key: 'gallery' },
   { id: 'contact', key: 'contact' },
 ] as const
-
-const FOCUS_RING =
-  'rounded-sm focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2'
-
-function scrollToId(id: string) {
-  const element = document.getElementById(id)
-  if (!element) return
-  const prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)',
-  ).matches
-  element.scrollIntoView({
-    behavior: prefersReducedMotion ? 'auto' : 'smooth',
-  })
-}
 
 export function Navbar() {
   const { dictionary } = useI18n()

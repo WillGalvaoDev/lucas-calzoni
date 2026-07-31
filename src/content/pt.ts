@@ -3,6 +3,7 @@ import type { Dictionary } from './i18n'
 export const pt: Dictionary = {
   hero: {
     tagline: 'Ator de Cinema, TV e Teatro',
+    ctaLabel: 'Ver Trabalhos',
   },
   about: {
     bio: 'A atuação sempre encontrou um jeito de fazer parte da minha vida. Ainda criança, descobri nos palcos da escola um lugar onde eu podia contar histórias e experimentar diferentes formas de enxergar o mundo. Anos depois, em 2018, uma viagem a Nova Iorque transformou essa paixão em certeza. Foi ali que decidi deixar para trás o bacharelado em Petróleo e Gás e seguir, de corpo e alma, o caminho da arte.',
@@ -28,6 +29,7 @@ export const pt: Dictionary = {
     },
   },
   gallery: {
+    reelLabel: 'Reel',
     reelPlayLabel: 'Assistir ao reel',
     reelTitle: 'Vídeo de apresentação do ator',
     reelPending: '[a definir]',
@@ -35,6 +37,10 @@ export const pt: Dictionary = {
     previous: 'Foto anterior',
     next: 'Próxima foto',
     closeLightbox: 'Fechar galeria',
+  },
+  contact: {
+    declarationLine1: 'A próxima história',
+    declarationLine2: 'pode começar aqui.',
   },
   nav: {
     languageToggleLabel: 'Mudar para inglês',

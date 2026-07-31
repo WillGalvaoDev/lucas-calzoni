@@ -19,9 +19,7 @@ import {
 import { galleryPhotos, reel } from '@/data/gallery'
 import { useI18n } from '@/content/i18n'
 import { cn } from '@/lib/utils'
-
-const FOCUS_RING =
-  'rounded-sm focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2'
+import { FOCUS_RING, SECTION_SHELL } from '@/lib/styles'
 
 // Entrada da foto (palco e lightbox) — mesmos tokens de duração/easing de
 // "Motion" (docs/design-system.md) já usados em Trabalhos.
@@ -41,6 +39,36 @@ function measureScrollbarWidth() {
   const width = probe.offsetWidth - probe.clientWidth
   document.body.removeChild(probe)
   return width
+}
+
+// Controle próprio, não o `Button` shadcn: sem fundo, borda ou canto
+// arredondado com aparência de componente — só o ícone e o `FOCUS_RING`,
+// discreto o bastante para não competir com a fotografia (Etapa 7). `size-11`
+// (44px) é a área de toque mínima recomendada, mesmo o ícone visível sendo
+// menor. Usado no palco e no lightbox — mesmo controle, duas instâncias.
+function GalleryArrowButton({
+  direction,
+  onClick,
+  label,
+}: {
+  direction: 'prev' | 'next'
+  onClick: () => void
+  label: string
+}) {
+  const Icon = direction === 'prev' ? ChevronLeft : ChevronRight
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      className={cn(
+        'flex size-11 cursor-pointer items-center justify-center text-muted-foreground transition-colors duration-[var(--motion-duration-fast)] hover:text-foreground',
+        FOCUS_RING,
+      )}
+    >
+      <Icon className="size-5" aria-hidden="true" />
+    </button>
+  )
 }
 
 export function Gallery() {
@@ -126,69 +154,16 @@ export function Gallery() {
   return (
     <section
       id="gallery"
-      className="section-dark scroll-mt-16 bg-background px-6 py-16 text-foreground sm:px-10 sm:py-24 lg:px-16 lg:py-32"
+      // `pb-*` local reduz só o rodapé da seção (o `py-*` do SECTION_SHELL
+      // segue governando o topo): entre o fim do Reel e a declaração do
+      // Contato havia 256px de vazio a 1440px — 128px do `lg:py-32` daqui
+      // somados a 128px do `lg:py-32` de lá. Como as duas seções compartilham
+      // o mesmo fundo escuro, esse vazio era a única coisa entre elas e as
+      // fazia parecer dois blocos desconectados (Etapa 9).
+      className={cn('section-dark bg-background', SECTION_SHELL, 'pb-10 sm:pb-16 lg:pb-20')}
     >
       <div className="mx-auto flex max-w-[1440px] flex-col gap-8">
         <h2 className="font-display text-h2 font-medium">{dictionary.nav.links.gallery}</h2>
-
-        <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-border bg-muted">
-          {reelPlaying && reel.status === 'defined' ? (
-            <iframe
-              src={reel.embedUrl}
-              title={dictionary.gallery.reelTitle}
-              className="absolute inset-0 size-full"
-              allow="fullscreen"
-            />
-          ) : reel.status === 'defined' ? (
-            <button
-              type="button"
-              onClick={() => setReelPlaying(true)}
-              aria-label={dictionary.gallery.reelPlayLabel}
-              className="absolute inset-0 flex items-center justify-center"
-            >
-              <img
-                src={reel.posterSrc}
-                alt=""
-                width={1600}
-                height={900}
-                loading="lazy"
-                className="absolute inset-0 size-full object-cover"
-              />
-              <span
-                aria-hidden="true"
-                className="relative flex size-16 items-center justify-center rounded-full bg-background/90 text-foreground"
-              >
-                <Play className="ml-1 size-6" />
-              </span>
-            </button>
-          ) : (
-            // Sem embed real ainda: nenhum elemento interativo e nenhum
-            // <iframe> é montado (evita disparar uma requisição de rede real
-            // para uma URL fictícia) — mesmo princípio do Item 11 para
-            // canais de contato pendentes.
-            <div className="absolute inset-0 flex items-center justify-center">
-              <img
-                src={reel.posterSrc}
-                alt=""
-                width={1600}
-                height={900}
-                loading="lazy"
-                className="absolute inset-0 size-full object-cover"
-              />
-              <span className="relative flex flex-col items-center gap-2 text-foreground">
-                <span
-                  aria-hidden="true"
-                  className="flex size-16 items-center justify-center rounded-full bg-background/90 opacity-60"
-                >
-                  <Play className="ml-1 size-6" />
-                </span>
-                <span className="rounded bg-background/90 px-2 py-1 text-sm font-medium">
-                  {dictionary.gallery.reelPending}
-                </span>
-              </span>
-            </div>
-          )}
-        </div>
 
         <div
           role="group"
@@ -201,8 +176,31 @@ export function Gallery() {
               type="button"
               onClick={openLightbox}
               aria-label={dictionary.gallery.expandLabel}
+              // `aspect-ratio` inline, calculado da proporção real da foto
+              // ativa (dado já existente em `galleryPhotos`, nunca inventado):
+              // reserva a altura correta do palco *antes* da imagem carregar,
+              // eliminando o CLS medido na auditoria da Etapa 7. Verificado
+              // empiricamente (não só na teoria) que isso só funciona com a
+              // imagem posicionada em `absolute` dentro de um wrapper `block`
+              // — dentro do `flex items-center justify-center` anterior, o
+              // navegador não tinha uma dimensão definida de onde derivar o
+              // `aspect-ratio` e a caixa colapsava para 0×0 até o load. Com
+              // `width` definida (100%) + `aspect-ratio` + `max-height`, o
+              // navegador resolve corretamente os dois casos: quando a altura
+              // implícita excede 80vh (desktop, recorte por altura) e quando
+              // não excede (mobile, a proporção real da foto governa) — sem
+              // nenhuma largura fixa e sem recortar a foto.
+              style={{ aspectRatio: `${activePhoto.width} / ${activePhoto.height}` }}
               className={cn(
-                'group flex max-h-[80vh] w-full cursor-zoom-in items-center justify-center overflow-hidden rounded-lg border border-border bg-muted shadow-sm',
+                // Cantos, contorno, sombra e o fundo de preenchimento do
+                // palco foram removidos: a foto agora assenta diretamente
+                // sobre o fundo escuro da seção, como uma projeção — não como
+                // um cartão (docs/design-system.md, "Galeria", Refatoração
+                // Editorial). A contenção de conteúdo transbordante segue
+                // presente por ser funcional (não decorativa): mantém o
+                // efeito de zoom leve no hover contido dentro da própria
+                // caixa, sem alterar esse comportamento.
+                'group relative block max-h-[80vh] w-full cursor-zoom-in overflow-hidden',
                 FOCUS_RING,
               )}
             >
@@ -214,29 +212,23 @@ export function Gallery() {
                 height={activePhoto.height}
                 loading="lazy"
                 className={cn(
-                  'max-h-[80vh] w-auto max-w-full object-contain transition-transform duration-[var(--motion-duration-fast)] group-hover:scale-[1.02] motion-reduce:transition-none',
+                  'absolute inset-0 size-full object-contain transition-transform duration-[var(--motion-duration-fast)] group-hover:scale-[1.02] motion-reduce:transition-none',
                   IMAGE_REVEAL,
                 )}
               />
             </button>
 
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="icon"
+            <div className="flex items-center gap-1">
+              <GalleryArrowButton
+                direction="prev"
                 onClick={showPrev}
-                aria-label={dictionary.gallery.previous}
-              >
-                <ChevronLeft />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
+                label={dictionary.gallery.previous}
+              />
+              <GalleryArrowButton
+                direction="next"
                 onClick={showNext}
-                aria-label={dictionary.gallery.next}
-              >
-                <ChevronRight />
-              </Button>
+                label={dictionary.gallery.next}
+              />
             </div>
 
             {activePhoto.caption && (
@@ -257,7 +249,7 @@ export function Gallery() {
           >
             <span
               aria-hidden="true"
-              className="text-center text-sm tabular-nums text-muted-foreground lg:text-left"
+              className="text-center text-xs tracking-meta tabular-nums text-muted-foreground uppercase lg:text-left"
             >
               {String(activeIndex + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
             </span>
@@ -287,7 +279,7 @@ export function Gallery() {
                       }}
                       aria-current={isActive ? 'true' : undefined}
                       className={cn(
-                        'relative block aspect-square size-18 overflow-hidden rounded-md transition-[opacity,border-color,transform] duration-[var(--motion-duration-fast)] motion-reduce:transition-none lg:size-24',
+                        'relative block aspect-square size-18 cursor-pointer overflow-hidden rounded-md transition-[opacity,border-color,transform] duration-[var(--motion-duration-fast)] motion-reduce:transition-none lg:size-24',
                         isActive
                           ? 'border-2 border-accent opacity-100 -translate-y-1'
                           : 'translate-y-0 border border-border opacity-60 hover:opacity-90',
@@ -308,6 +300,89 @@ export function Gallery() {
             </ul>
           </div>
         </div>
+
+        {/* Reel como último movimento da Galeria (não seção própria):
+            separado das fotografias por um único fio estrutural — mesmo
+            vocabulário do ledger de Sobre/Trabalhos, não um dispositivo novo
+            — e anunciado só pelo rótulo "REEL" na voz do metadado, sem H3
+            nem frase editorial (docs/design-system.md, "Reel", Etapa 7). */}
+        <div className="flex flex-col gap-4 border-t border-border pt-10 lg:pt-16">
+          <span className="text-xs tracking-meta text-muted-foreground uppercase">
+            {dictionary.gallery.reelLabel}
+          </span>
+
+          {/* Sem `max-w-*` (Etapa 9, correção): qualquer teto fixo (testados
+              `2xl`, `3xl`, `4xl`) deixa uma sobra lateral vazia à direita do
+              vídeo que lê como "espaço reservado para mais conteúdo" — o
+              problema não era o valor do teto, era ter um teto. `w-full`
+              sozinho já é contido pela espinha da seção (`max-w-[1440px]` +
+              padding do `SECTION_SHELL`), então o Reel ocupa 100% da largura
+              útil sem nunca virar full-bleed da viewport. Alinhado à
+              esquerda por padrão (sem `mx-auto`). Cromo removido (cantos,
+              borda, fundo de preenchimento) — pendência registrada na
+              Etapa 3, resolvida junto do reposicionamento na Etapa 7. */}
+          <div className="relative aspect-video w-full overflow-hidden">
+            {reelPlaying && reel.status === 'defined' ? (
+              <iframe
+                src={reel.embedUrl}
+                title={dictionary.gallery.reelTitle}
+                className="absolute inset-0 size-full"
+                allow="fullscreen"
+              />
+            ) : reel.status === 'defined' ? (
+              <button
+                type="button"
+                onClick={() => setReelPlaying(true)}
+                aria-label={dictionary.gallery.reelPlayLabel}
+                className={cn(
+                  'absolute inset-0 flex cursor-pointer items-center justify-center',
+                  FOCUS_RING,
+                )}
+              >
+                <img
+                  src={reel.posterSrc}
+                  alt={reel.posterAlt[language]}
+                  width={1600}
+                  height={900}
+                  loading="lazy"
+                  className="absolute inset-0 size-full object-cover"
+                />
+                <span
+                  aria-hidden="true"
+                  className="relative flex size-12 items-center justify-center rounded-full bg-background/90 text-foreground sm:size-16"
+                >
+                  <Play className="ml-1 size-6" />
+                </span>
+              </button>
+            ) : (
+              // Sem embed real ainda: nenhum elemento interativo e nenhum
+              // <iframe> é montado (evita disparar uma requisição de rede real
+              // para uma URL fictícia) — mesmo princípio do Item 11 para
+              // canais de contato pendentes.
+              <div className="absolute inset-0 flex items-center justify-center">
+                <img
+                  src={reel.posterSrc}
+                  alt={reel.posterAlt[language]}
+                  width={1600}
+                  height={900}
+                  loading="lazy"
+                  className="absolute inset-0 size-full object-cover"
+                />
+                <span className="relative flex flex-col items-center gap-2 text-foreground">
+                  <span
+                    aria-hidden="true"
+                    className="flex size-12 items-center justify-center rounded-full bg-background/90 opacity-60 sm:size-16"
+                  >
+                    <Play className="ml-1 size-6" />
+                  </span>
+                  <span className="rounded bg-background/90 px-2 py-1 text-sm font-medium">
+                    {dictionary.gallery.reelPending}
+                  </span>
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       <Dialog open={lightboxOpen} onOpenChange={handleLightboxOpenChange}>
@@ -316,7 +391,7 @@ export function Gallery() {
           onKeyDown={handleArrowKeyDown}
           className="section-dark w-[92vw] max-w-4xl border-none bg-background p-4 text-foreground sm:max-w-4xl"
         >
-          <div className="flex max-h-[80vh] w-full items-center justify-center overflow-hidden rounded-lg bg-muted">
+          <div className="flex max-h-[80vh] w-full items-center justify-center overflow-hidden">
             <img
               key={activePhoto.id}
               src={activePhoto.src}
@@ -336,23 +411,17 @@ export function Gallery() {
             </DialogDescription>
           </div>
 
-          <div className="flex items-center justify-center gap-4">
-            <Button
-              variant="outline"
-              size="icon"
+          <div className="flex items-center justify-center gap-2">
+            <GalleryArrowButton
+              direction="prev"
               onClick={showPrev}
-              aria-label={dictionary.gallery.previous}
-            >
-              <ChevronLeft />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
+              label={dictionary.gallery.previous}
+            />
+            <GalleryArrowButton
+              direction="next"
               onClick={showNext}
-              aria-label={dictionary.gallery.next}
-            >
-              <ChevronRight />
-            </Button>
+              label={dictionary.gallery.next}
+            />
           </div>
 
           <DialogClose asChild>
