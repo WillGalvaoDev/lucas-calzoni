@@ -1,5 +1,5 @@
 // `src`/`posterSrc` apontam para os assets reais gerados no Item 12, servidos
-// de `public/assets/placeholders/` (caminho estático direto, sem processamento
+// de `public/assets/images/` (caminho estático direto, sem processamento
 // do bundler — necessário porque são strings simples guardadas em dado, não
 // imports de módulo).
 
@@ -39,7 +39,7 @@ export type Reel =
 export const galleryPhotos: GalleryPhoto[] = [
   {
     id: 'foto-exemplo-1',
-    src: '/assets/placeholders/gallery-01.webp',
+    src: '/assets/images/gallery-01.webp',
     width: 4640,
     height: 6960,
     alt: {
@@ -49,7 +49,7 @@ export const galleryPhotos: GalleryPhoto[] = [
   },
   {
     id: 'foto-exemplo-2',
-    src: '/assets/placeholders/gallery-02.webp',
+    src: '/assets/images/gallery-02.webp',
     width: 4640,
     height: 6960,
     alt: {
@@ -59,7 +59,7 @@ export const galleryPhotos: GalleryPhoto[] = [
   },
   {
     id: 'foto-exemplo-3',
-    src: '/assets/placeholders/gallery-03.webp',
+    src: '/assets/images/gallery-03.webp',
     width: 4640,
     height: 6960,
     alt: {
@@ -69,7 +69,7 @@ export const galleryPhotos: GalleryPhoto[] = [
   },
   {
     id: 'foto-exemplo-4',
-    src: '/assets/placeholders/gallery-04.webp',
+    src: '/assets/images/gallery-04.webp',
     width: 4640,
     height: 6960,
     alt: {
@@ -79,7 +79,7 @@ export const galleryPhotos: GalleryPhoto[] = [
   },
   {
     id: 'foto-exemplo-5',
-    src: '/assets/placeholders/gallery-05.webp',
+    src: '/assets/images/gallery-05.webp',
     width: 4640,
     height: 6960,
     alt: {
@@ -89,7 +89,7 @@ export const galleryPhotos: GalleryPhoto[] = [
   },
   {
     id: 'foto-exemplo-6',
-    src: '/assets/placeholders/gallery-06.webp',
+    src: '/assets/images/gallery-06.webp',
     width: 4640,
     height: 6960,
     alt: {
@@ -99,7 +99,7 @@ export const galleryPhotos: GalleryPhoto[] = [
   },
   {
     id: 'foto-exemplo-7',
-    src: '/assets/placeholders/gallery-07.webp',
+    src: '/assets/images/gallery-07.webp',
     width: 1474,
     height: 1920,
     alt: {
@@ -109,7 +109,7 @@ export const galleryPhotos: GalleryPhoto[] = [
   },
   {
     id: 'foto-exemplo-8',
-    src: '/assets/placeholders/gallery-08.webp',
+    src: '/assets/images/gallery-08.webp',
     width: 1440,
     height: 1920,
     alt: {
@@ -121,7 +121,7 @@ export const galleryPhotos: GalleryPhoto[] = [
 
 export const reel: Reel = {
   status: 'defined',
-  posterSrc: '/assets/placeholders/reel-poster.webp',
+  posterSrc: '/assets/images/reel-poster.webp',
   embedUrl: 'https://www.youtube.com/embed/e7COm5EI14Q?si=ogYi_WM2NXBBWEmi',
   posterAlt: {
     pt: 'Performance musical em estúdio',

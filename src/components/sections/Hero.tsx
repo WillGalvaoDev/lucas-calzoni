@@ -42,7 +42,7 @@ export function Hero() {
           paisagem, 1672×941 — bem mais larga que qualquer viewport de
           celular); a partir de `sm` volta ao centro padrão. */}
       <img
-        src="/assets/placeholders/hero-portrait.webp"
+        src="/assets/images/hero-portrait.webp"
         alt=""
         width={1672}
         height={941}
