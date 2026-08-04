@@ -17,17 +17,79 @@ interface QuickFact {
   value: string
 }
 
+interface TrainingEntry {
+  title: string
+  mentors: string
+}
+
+interface TrainingFact {
+  label: string
+  entries: readonly TrainingEntry[]
+}
+
+interface SkillGroup {
+  label: string
+  items: readonly string[]
+}
+
+interface Statement {
+  /** Primeiras palavras da declaração — recebem a aparição única de acento da seção. */
+  accent: string
+  /** Restante da frase, incluindo o espaço inicial que a separa do trecho acentuado. */
+  rest: string
+}
+
+/**
+ * Campos da ficha técnica do dossiê, na ordem de leitura definida em
+ * docs/design.md ("Sobre"). Obrigatório = dado que já existe
+ * hoje; opcional = dado que o ator ainda não enviou.
+ *
+ * A opcionalidade aqui não é conveniência de build: um campo ausente é
+ * **omitido do dicionário**, nunca preenchido com string vazia ou "[a
+ * definir]", porque a seção não renderiza rótulo sem valor. Quando o
+ * dado chegar, basta acrescentar a chave nos dois dicionários — nenhum
+ * componente muda.
+ */
+interface SheetFields {
+  playingAge?: QuickFact
+  height?: QuickFact
+  eyes?: QuickFact
+  hair?: QuickFact
+  voice?: QuickFact
+  languages?: QuickFact
+  born: QuickFact
+  base?: QuickFact
+  union?: QuickFact
+}
+
+export type SheetFieldKey = keyof SheetFields
+
 export interface Dictionary {
   hero: {
     tagline: string
     ctaLabel: string
   }
   about: {
-    bio: string
-    quickFacts: {
-      born: QuickFact
-      training: QuickFact
-      representation: QuickFact
+    statement: Statement
+    plate: {
+      alt: string
+    }
+    bio: readonly string[]
+    sheet: {
+      label: string
+      fields: SheetFields
+    }
+    training: TrainingFact
+    /** `groups` vazio enquanto o ator não enviar as habilidades — a banda
+        inteira deixa de renderizar nesse caso. */
+    skills: {
+      label: string
+      groups: readonly SkillGroup[]
+    }
+    representation: QuickFact
+    /** Rótulo do CTA. A existência do arquivo é decidida em `src/data/dossier.ts`. */
+    resume: {
+      label: string
     }
   }
   work: {

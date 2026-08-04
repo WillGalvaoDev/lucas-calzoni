@@ -6,12 +6,46 @@ export const en: Dictionary = {
     ctaLabel: 'See Work',
   },
   about: {
-    bio: 'Acting has always found a way to be part of my life. As a child, I discovered on my school’s stage a place where I could tell stories and see the world through different perspectives. Years later, in 2018, a trip to New York turned that passion into certainty. It was there that I chose to leave behind my degree in Petroleum and Gas Engineering and devote myself wholeheartedly to the path of acting.',
-    quickFacts: {
-      born: { label: 'Born', value: 'São Paulo, Brazil, 1993' },
-      training: { label: 'Training', value: "Contemporary Belting (Tiago Bezerra), Classical Ballet (Alessandra Lona), Ivana Chubbuck's Acting Technique + Lorena Comparato's Method (Marina Figueira), Acting for TV and Film (Moisés Bittencourt), TV Prep (Marcelo Zambelli), Acting and Presenting Prep (Blad Meneghel), Musical Theatre Intensive (Reiner Tenente, Betto Serrador, Sueli Guerra, and Patrícia Carillo)" },
-      representation: { label: 'Representation', value: 'Instituto das Artes Luana Lopes' },
+    statement: {
+      accent: 'Acting',
+      rest: ' has always found a way to be part of my life.',
     },
+    plate: {
+      alt: 'Black-and-white studio portrait of Lucas Calzoni looking into the camera.',
+    },
+    bio: [
+      'As a child, I discovered on my school’s stage a place where I could tell stories and see the world through different perspectives.',
+      'Years later, in 2018, a trip to New York turned that passion into certainty. It was there that I chose to leave behind my degree in Petroleum and Gas Engineering and devote myself wholeheartedly to the path of acting.',
+    ],
+    // Ver comentário equivalente em pt.ts: só `born` existe hoje; os demais
+    // campos entram quando o ator enviar os dados.
+    sheet: {
+      label: 'Casting sheet',
+      fields: {
+        born: { label: 'Born', value: 'São Paulo, Brazil, 1993' },
+      },
+    },
+    training: {
+      label: 'Training',
+      entries: [
+        { title: 'Contemporary Belting', mentors: 'Tiago Bezerra' },
+        { title: 'Classical Ballet', mentors: 'Alessandra Lona' },
+        {
+          title: "Ivana Chubbuck's Acting Technique + Lorena Comparato's Method",
+          mentors: 'Marina Figueira',
+        },
+        { title: 'Acting for TV and Film', mentors: 'Moisés Bittencourt' },
+        { title: 'TV Prep', mentors: 'Marcelo Zambelli' },
+        { title: 'Acting and Presenting Prep', mentors: 'Blad Meneghel' },
+        {
+          title: 'Musical Theatre Intensive',
+          mentors: 'Reiner Tenente, Betto Serrador, Sueli Guerra, and Patrícia Carillo',
+        },
+      ],
+    },
+    skills: { label: 'Skills', groups: [] },
+    representation: { label: 'Representation', value: 'Instituto das Artes Luana Lopes' },
+    resume: { label: 'Download résumé' },
   },
   work: {
     categories: {
