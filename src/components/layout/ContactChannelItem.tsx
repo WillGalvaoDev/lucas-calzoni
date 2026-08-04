@@ -51,7 +51,7 @@ export function ContactChannelItem({
       target={channel.external ? '_blank' : undefined}
       rel={channel.external ? 'noopener noreferrer' : undefined}
       // Sem `hover:text-accent`: o acento sobre `.section-dark` mede 3.95:1,
-      // abaixo do mínimo de 4.5:1 para texto (docs/design-system.md,
+      // abaixo do mínimo de 4.5:1 para texto (docs/design.md,
       // "Regra de uso do acento"). O sinal de hover/foco vem de um filete
       // (`border-b`), que só precisa do mínimo de 3:1 de componente de UI —
       // o texto permanece sempre em `text-foreground`, de alto contraste.

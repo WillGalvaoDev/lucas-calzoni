@@ -8,7 +8,7 @@ import { FOCUS_RING, SECTION_SHELL } from '@/lib/styles'
 // Radix Collapsible (base do Accordion) só anima o fechamento se detectar uma
 // `animation` CSS nomeada — por isso a revelação em cortina usa `animate-[...]`
 // com os `@keyframes` de src/index.css, não `transition`. Duração/easing vêm
-// dos tokens únicos de motion (docs/design-system.md, "Motion").
+// dos tokens únicos de motion (docs/design.md, "Motion").
 const CURTAIN_OPEN =
   'data-[state=open]:animate-[curtain-reveal-open_var(--motion-duration)_var(--motion-ease)]'
 const CURTAIN_CLOSE =
@@ -19,7 +19,7 @@ function WorkField({ label, value }: { label: string; value: string }) {
     <div>
       {/* Voz do metadado (mesmo token de tracking do Sobre/Contato, Etapa 4) —
           alinha os rótulos do painel expandido ao vocabulário já estabelecido
-          nas demais seções (docs/design-system.md, "Trabalhos", Etapa 6). */}
+          nas demais seções (docs/design.md, "Trabalhos", Etapa 6). */}
       <dt className="text-xs tracking-meta text-muted-foreground uppercase">{label}</dt>
       <dd className="text-base">{value}</dd>
     </div>
@@ -35,7 +35,7 @@ export function Work() {
       id="work"
       // `border-t` aqui é o divisor editorial entre Sobre e Trabalhos — antes
       // não existia nenhuma fronteira visual entre as duas seções claras
-      // (docs/design-system.md, "Superfícies").
+      // (docs/design.md, "Superfícies").
       className={cn('border-t border-border bg-surface', SECTION_SHELL)}
     >
       <div className="mx-auto flex max-w-[1440px] flex-col gap-8">
@@ -112,7 +112,7 @@ export function Work() {
                   )}
 
                   {entry.imageSrc && (
-                    // Cromo decorativo removido (docs/design-system.md,
+                    // Cromo decorativo removido (docs/design.md,
                     // "Trabalhos", Etapa 6) — `aspect-4/5`/`overflow-hidden`/
                     // `object-cover` seguem por serem funcionais (reservam
                     // layout estável antes da imagem carregar), não

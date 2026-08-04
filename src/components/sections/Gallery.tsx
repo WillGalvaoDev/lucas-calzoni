@@ -22,7 +22,7 @@ import { cn } from '@/lib/utils'
 import { FOCUS_RING, SECTION_SHELL } from '@/lib/styles'
 
 // Entrada da foto (palco e lightbox) — mesmos tokens de duração/easing de
-// "Motion" (docs/design-system.md) já usados em Trabalhos.
+// "Motion" (docs/design.md) já usados em Trabalhos.
 const IMAGE_REVEAL =
   'animate-[gallery-image-reveal_var(--motion-duration)_var(--motion-ease)] motion-reduce:animate-none'
 
@@ -195,7 +195,7 @@ export function Gallery() {
                 // Cantos, contorno, sombra e o fundo de preenchimento do
                 // palco foram removidos: a foto agora assenta diretamente
                 // sobre o fundo escuro da seção, como uma projeção — não como
-                // um cartão (docs/design-system.md, "Galeria", Refatoração
+                // um cartão (docs/design.md, "Galeria", Refatoração
                 // Editorial). A contenção de conteúdo transbordante segue
                 // presente por ser funcional (não decorativa): mantém o
                 // efeito de zoom leve no hover contido dentro da própria
@@ -305,7 +305,7 @@ export function Gallery() {
             separado das fotografias por um único fio estrutural — mesmo
             vocabulário do ledger de Sobre/Trabalhos, não um dispositivo novo
             — e anunciado só pelo rótulo "REEL" na voz do metadado, sem H3
-            nem frase editorial (docs/design-system.md, "Reel", Etapa 7). */}
+            nem frase editorial (docs/design.md, "Reel", Etapa 7). */}
         <div className="flex flex-col gap-4 border-t border-border pt-10 lg:pt-16">
           <span className="text-xs tracking-meta text-muted-foreground uppercase">
             {dictionary.gallery.reelLabel}

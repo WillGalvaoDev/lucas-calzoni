@@ -29,3 +29,6 @@ dist-ssr
 *.sw?
 
 .claude/settings.local.json
+
+# Cache local de ferramentas de qualidade (não versionado)
+.impeccable
