@@ -92,7 +92,8 @@ SPA 100% client-side, sem SSR, backend ou CMS, publicada na Vercel. Todo conteú
 
 ## 11. Compromissos de marca
 
-- Nome **Lucas Calzoni** como wordmark em texto puro (`font-display`), sem logotipo nem monograma. A ideia de um monograma "LC" foi avaliada e descartada — a composição aprovada provou não precisar dele.
+- Nome **Lucas Calzoni** como wordmark em texto puro (`font-display`) na Navbar, Hero e Footer — sem logotipo nem monograma nesses lugares. A ideia de um monograma "LC" foi avaliada e descartada — a composição aprovada provou não precisar dele.
+- **Exceção nomeada**: a assinatura manuscrita do ator fecha o dossiê de Sobre (ver `design.md`, "Assinatura"). Não é um logotipo — é tratada como um endosso de ocorrência única, não como marca reutilizável. Não estender a nenhum outro lugar do site sem decisão de Lead.
 - Handles reais e vinculantes: Instagram `@olucascalzoni`; e-mail e WhatsApp da representação em `src/data/contact.ts`.
 - **Fotografias em `public/assets/images/` são ativos reais e protegidos**: nunca editar, recortar, converter ou reprocessar o arquivo. Todo tratamento visual é CSS sobre a imagem intacta. Mover ou renomear a pasta é decisão de Lead, e foi feito uma vez — a pasta se chamava `placeholders/`, nome herdado da fase de prototipagem que contradizia o conteúdo real.
 

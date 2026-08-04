@@ -45,6 +45,8 @@ Alterações na Hero exigem decisão explícita de Lead, não ajuste de polish.
 
 **3. Duas vozes tipográficas, nunca três.** A serifada fala em títulos e nomes de obra. A grotesca em caixa alta com tracking aberto é a **voz do metadado**. Texto corrido é grotesca normal. Não existe quarta voz. Um degrau tonal (mesma família, cor secundária) **não** conta como voz nova — é o recurso correto para hierarquia interna.
 
+*Exceção nomeada*: a assinatura manuscrita do ator, no fecho de Sobre (ver "Assinatura" na spec da seção), não é uma voz tipográfica — é uma **marca de ocorrência única**, da mesma natureza de um selo ou carimbo. Nunca compõe texto, nunca ganha um segundo consumidor. Não abre precedente para nenhum script futuro; se algo cogitar reusá-la ou introduzir um segundo elemento manuscrito, é decisão de Lead, não extensão de implementação.
+
 **4. Densidade decrescente.** A Hero tem quatro elementos em uma tela inteira: essa é a densidade máxima do topo. Seções seguintes podem ser mais densas que a Hero, mas nenhuma pode parecer cheia. Se uma seção precisa de scroll interno ou abreviação para caber, corta-se conteúdo — não espaço.
 
 **5. Arestas retas.** Sem cantos arredondados, sem sombras. Canto arredondado + sombra é vocabulário de interface de aplicativo; aresta reta é vocabulário de impresso.
@@ -331,7 +333,7 @@ O beat da placa é enriquecimento puro, sob `@media (hover: hover)` (o variante 
 3. **A pauta de largura total.** Fios de 1px atravessando **todo o container**, não só a coluna de texto. É o dispositivo que transforma "coluna de conteúdo" em "página de documento" — não reduzir de volta ao escopo da coluna.
 4. **O salto de escala.** Rótulo de 12px em caixa alta ↔ declaração de até 60px em display.
 
-**Estrutura**: abertura (sobrancelha + declaração + placa) e quatro bandas — Ficha técnica, Biografia (sem rótulo), Formação, Representação. A banda de Habilidades entra automaticamente quando houver dados.
+**Estrutura**: abertura (sobrancelha + declaração + placa), quatro bandas — Ficha técnica, Biografia (sem rótulo), Formação, Representação — e a assinatura como fecho. A banda de Habilidades entra automaticamente quando houver dados.
 
 | Elemento | Spec |
 |---|---|
@@ -344,6 +346,15 @@ O beat da placa é enriquecimento puro, sob `@media (hover: hover)` (o variante 
 | Ficha técnica | `<dl>` real, grade de 1/2/3 colunas. **Campo sem valor não renderiza** — nem rótulo órfão, nem traço, nem "[a definir]" |
 | Biografia | Dois parágrafos, `max-w-prose`, **sem rótulo** — rotular a prosa a rebaixaria a mais um campo de ficha |
 | Formação | `{ title, mentors }[]` renderizado como `ul`/`li`. Grade de 2 colunas em `lg:` — **`grid`, nunca `columns-2`** |
+| **Assinatura** | Manuscrita, vetorizada a partir do original do ator. `w-[clamp(200px,22vw,300px)]`, `text-foreground` (tinta, não acento), alinhada à direita, `mt-14` após o fio de fechamento da última banda |
+
+**Assinatura — o fecho do dossiê.** O bloco de abertura é a única coisa da seção que ignora as duas verticais e rompe para a esquerda; a assinatura é a única outra exceção, e rompe para a direita — a seção abre e fecha com a mesma licença compositiva, nas duas pontas, nunca no meio.
+
+- **Cor**: `--foreground`, nunca `--accent`. Dois motivos convergem: a aparição única de acento da seção já foi gasta em "A atuação" (abertura); e uma assinatura de verdade é feita de tinta, não de folha de ouro — script dourado sobre papel leria como convite, não como documento assinado.
+- **Por que ela e não uma logo**: uma logo identifica; uma assinatura *endossa* — "eu respondo por isto". Sobre é a única seção do site sem nenhuma enunciação do nome do ator em texto (a bio fala em "eu", nunca se identifica); a assinatura é a primeira vez que ele diz o próprio nome no carro-chefe do site, e diz com a mão.
+- **Onde não vai**: Navbar (abaixo de ~260px o traço serrilha; e cursiva em cabeçalho fixo lê como papelaria de casamento, não casting), Hero (o nome em 80px já é a declaração de identidade — duplicar é gaguejar), Footer (o wordmark ali é link de "voltar ao topo"; assinatura como controle de navegação está semanticamente errado).
+- **Motion**: reveal próprio (mesmo `useReveal` de toda banda — fade + 6px, mesmo par duração/easing), nunca um ritmo novo. **Proibido animar o traçado como se estivesse sendo escrito** — é o efeito óbvio para SVG de assinatura e é exatamente o que a seção 1.2 proíbe: "qualquer elemento que pareça efeito antes de parecer composição está errado". Uma assinatura que se desenha sozinha diz "olha meu CSS"; uma que simplesmente está lá diz "eu assinei isto".
+- **Implementação**: `src/components/sections/About.tsx`, componente local `Signature` — embutida como JSX (não `<img>`) porque precisa herdar `currentColor`. Path vetorizado por script próprio sobre o canal alfa do PNG original (ferramentas automáticas de vetorização travavam no ambiente); ver comentário do componente para o processo completo.
 
 **Por que a declaração é o `<h2>`**: um `<h2>` "Sobre" acima de uma declaração maior seria um elemento subordinado com mais peso visual que seu próprio título. As duas seções em que o ator **fala** (Sobre, Contato) abrem com declaração; as duas que **catalogam** (Trabalhos, Galeria) abrem com rótulo.
 

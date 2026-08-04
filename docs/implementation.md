@@ -88,6 +88,18 @@ Reconstrução completa a partir do mandato "transformar Sobre no carro-chefe, p
 - Removidos `src/components/ui/toggle.tsx` e `toggle-group.tsx` — primitivas shadcn instaladas e nunca consumidas. **CSS de produção caiu de 54,76 kB para 51,32 kB.**
 - `.impeccable/` (cache local de ferramenta) adicionado ao `.gitignore`.
 - Oito arquivos em `docs/` compilados em quatro, com todas as contradições resolvidas contra o código.
+- `public/assets/placeholders/` renomeada para `public/assets/images/` — o nome antigo contradizia o conteúdo (fotografias reais, não placeholders).
+- `docs/design-references/editorial-v2.png` (1748 kB) comprimido para `.webp` (57 kB) sem redimensionar.
+
+## 2.7 Assinatura do ator — fecho do dossiê
+
+O ator forneceu uma assinatura manuscrita (`lucas-calzoni-signature.png`). Um primeiro arquivo enviado como `lucas-calzoni.svg.svg` acabou sendo outro conceito — um wordmark tipográfico com fundo sólido e três cores fora da paleta — e foi descartado da implementação (permanece na pasta, não referenciado).
+
+**Vetorização**: as ferramentas automáticas disponíveis no ambiente (`vtracer`) travavam com qualquer parâmetro nomeado. Escrito um tracer próprio sobre o **canal alfa** do PNG (o RGB trazia um glow e um fundo embutidos atrás de pixels transparentes): marching squares em nível sub-pixel, simplificação Ramer-Douglas-Peucker, conversão para cúbicas de Bézier via Catmull-Rom. Limiar de alfa (140) e tolerância de simplificação (0.9) escolhidos por medição — o limiar reproduz a área de tinta efetiva do original com 0,4% de desvio. Resultado: 396 nós, 11 subpaths, 14 kB (5,8 kB em gzip) — o PNG original tinha 2035 kB.
+
+**Colocação**: fecho da seção Sobre, alinhada à direita, abaixo do fio de fechamento da última banda — a única outra exceção à grade de duas verticais além do bloco de abertura (que rompe para a esquerda; a assinatura rompe para a direita). Cor `--foreground` (tinta), não `--accent`: a aparição única de acento da seção já é gasta na declaração de abertura, e o registro é o de que assinatura de verdade é tinta, não folha de ouro.
+
+Embutida como componente JSX local em `About.tsx` (não `<img>`), porque precisa herdar `currentColor`. Reveal reaproveita o mesmo hook e os mesmos tokens de toda banda — sem animação de traçado, que seria efeito antes de composição. Ver `docs/design.md`, "Sobre" e princípio 3, para a especificação e a exceção nomeada à regra de duas vozes tipográficas.
 
 ---
 
