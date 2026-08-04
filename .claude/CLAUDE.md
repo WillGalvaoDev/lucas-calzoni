@@ -13,11 +13,12 @@ React + Vite + TypeScript (strict) + Tailwind CSS + shadcn/ui. Sem react-router.
 ## Fontes de verdade — `docs/`
 
 Antes de qualquer decisão, consultar:
-- `docs/product.md` — objetivo, público, escopo, critérios de sucesso.
-- `docs/design.md` — direção visual, narrativa por seção, motion, imagem.
-- `docs/design-system.md` — tokens e specs concretos (cores, tipografia, componentes, acessibilidade).
-- `docs/architecture.md` — stack, pastas, i18n, dados, performance, processo.
-- `docs/implementation-plan.md` — checklist ordenada de execução.
+- `docs/product.md` — objetivo, público, escopo, critérios de sucesso, pendências de conteúdo.
+- `docs/design.md` — direção visual, narrativa por seção **e o design system completo** (cores, tipografia, motion, imagem, specs de componente, acessibilidade).
+- `docs/architecture.md` — stack, pastas, i18n, dados, performance, deploy, processo.
+- `docs/implementation.md` — estado de cada seção, defeitos corrigidos, validações e pendências.
+
+São exatamente quatro. Não criar documento novo em `docs/` sem decisão explícita do Lead — a fragmentação anterior (oito arquivos) foi a origem da maioria das contradições do projeto.
 
 **Estes documentos não são sugestões — são a especificação.** Não implementar, alterar comportamento ou reinterpretar requisitos sem checá-los primeiro. Se uma tarefa exigir uma decisão não coberta por eles, parar e perguntar em vez de assumir.
 
@@ -32,13 +33,13 @@ Antes de qualquer decisão, consultar:
 
 **Lead** (Product Designer + UX Designer + Software Architect) — **Opus 5**, usado somente para:
 - Planejamento, decisões de arquitetura e de design system.
-- Revisão crítica do que foi implementado (contra `design-system.md` e as diretrizes de UX/acessibilidade).
+- Revisão crítica do que foi implementado (contra `design.md` e as diretrizes de UX/acessibilidade).
 - Triagem de achados de Chrome DevTools (bug → tarefa de correção; lacuna de design → atualização do doc).
 - Não escreve código de implementação.
 
 **Implementer** (Senior Frontend Implementer) — **Sonnet 5**, usado para:
 - Implementação, testes e correções de código.
-- Configuração de ferramentas, execução do `implementation-plan.md` item a item.
+- Configuração de ferramentas; registra o que entregou em `implementation.md`.
 - Se travar numa decisão de design/arquitetura fora do escopo dos docs, para e escala para o Lead em vez de improvisar.
 
 ## Prioridades transversais
@@ -53,7 +54,7 @@ Nesta ordem de importância quando houver conflito: **segurança e privacidade >
 
 ## Uso das ferramentas de design/MCP
 
-- **`frontend-design`** (skill) — consultar para decisões visuais (composição, tipografia, direção estética), alinhado a `design.md`/`design-system.md`.
+- **`frontend-design`** (skill) — consultar para decisões visuais (composição, tipografia, direção estética), alinhado a `design.md`.
 - **`21st`** (MCP) — usar para pesquisar referências e componentes de inspiração, não para gerar UI final sem revisão contra o design system.
 - **`shadcn-ui`** (MCP) — usar para consultar e instalar componentes base adequados; consultar antes de criar componentes de UI comuns que possam já existir no shadcn.
 - **Chrome DevTools MCP** — usar **somente com a aplicação rodando** (`npm run dev` ativo), para validação visual, responsividade (mobile 375×812 / tablet 768×1024 / desktop 1440×900), console, rede e performance. Não usar para inspecionar código estático.

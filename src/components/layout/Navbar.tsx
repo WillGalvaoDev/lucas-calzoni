@@ -110,7 +110,7 @@ export function Navbar() {
                 // `hover:text-accent` fica abaixo do contraste AA (4.5:1)
                 // quando a Navbar está transparente sobre o Hero escuro
                 // (~3.94:1). Sublinhado é a alternativa que o próprio
-                // design-system.md permite ("sublinhado ou cor accent") e não
+                // docs/design.md permite ("sublinhado ou cor accent") e não
                 // depende da cor do texto para ser percebido.
                 isScrolled ? 'hover:text-accent' : 'hover:underline',
                 FOCUS_RING,

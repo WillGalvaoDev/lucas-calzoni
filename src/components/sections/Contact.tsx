@@ -12,7 +12,7 @@ export function Contact() {
       id="contact"
       // `.section-dark` fecha o arco claro/escuro da página (docs/design-
       // system.md, "Arco claro/escuro"). A seção abandona a centralização
-      // anterior e adere à espinha (docs/design-system.md, "Contato") — o
+      // anterior e adere à espinha (docs/design.md, "Contato") — o
       // bloco principal já não é mais o layout genérico de "área de
       // contato" (título centralizado + lista de ícones).
       // `pt-*`/`pb-*` locais (o `py-*` do SECTION_SHELL segue como base):

@@ -26,7 +26,7 @@ export function Footer() {
   return (
     <footer
       // Mesma paleta do Contato — o arco da página fecha sem quebra de tom
-      // (docs/design-system.md, "Arco claro/escuro", "Footer"). O
+      // (docs/design.md, "Arco claro/escuro", "Footer"). O
       // `border-t border-border` resolve para o `--border` de `.section-dark`
       // (mais visível que o `--border` claro anterior): é o único fio
       // estrutural entre Contato e Footer, decisão explícita da Etapa 8.

@@ -1,6 +1,6 @@
 // Classes compartilhadas por repetição real (mesma string, mesma
 // responsabilidade, zero variação de intenção) — não abstrações por
-// semelhança. Ver docs/design-system.md, auditoria da Refatoração Editorial
+// semelhança. Ver docs/design.md, auditoria da Refatoração Editorial
 // (Etapa 2). Cada seção continua compondo suas próprias classes por cima
 // destas; nenhuma vira componente.
 
